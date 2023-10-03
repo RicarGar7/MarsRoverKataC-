@@ -11,7 +11,7 @@ public class Position
         _longitude = longitude;
     }
 
-    public static Position declare(int latitude, int longitude)
+    public static Position Declare(int latitude, int longitude)
     {
         if (latitude < 0 || longitude < 0)
         {

@@ -5,11 +5,11 @@ public class PlanetTest
     [Fact]
     public void Should_Create()
     {
-        var planet = Planet.create(
+        var planet = Planet.Create(
             new Surface(10, 10),
             new List<Obstacle>()
             {
-                new(Position.declare(5,5))
+                new(Position.Declare(5,5))
             }
         );
 
@@ -20,11 +20,11 @@ public class PlanetTest
     public void Should_Not_CreateWhenAnArtifactIsOut()
     {
         Assert.Throws<ObstacleDeclaredOutOfThePlanetException>(() =>
-            Planet.create(
+            Planet.Create(
                 new Surface(10, 10),
                 new List<Obstacle>()
                 {
-                    new(Position.declare(11,11))
+                    new(Position.Declare(11,11))
                 }
             ));
     }

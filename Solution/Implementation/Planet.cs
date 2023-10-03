@@ -2,8 +2,8 @@ namespace Test;
 
 public class Planet
 {
-    private readonly Surface _surface;
-    private readonly List<Obstacle> _obstacles;
+    public readonly Surface _surface;
+    public readonly List<Obstacle> _obstacles;
 
     private Planet(Surface surface, List<Obstacle> obstacles)
     {
@@ -11,7 +11,7 @@ public class Planet
         _obstacles = obstacles;
     }
 
-    public static Planet create(Surface surface, List<Obstacle> artifacts)
+    public static Planet Create(Surface surface, List<Obstacle> artifacts)
     {
         if (!artifacts.All(artifact =>
                 surface.CanBeContained(artifact._position._latitude, artifact._position._longitude)))
