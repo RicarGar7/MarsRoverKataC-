@@ -1,0 +1,12 @@
+namespace Test;
+
+public class PositionTest
+{
+    [Fact]
+    public void Should_NotBeDeclarableWithNegativeLatitudeOrLongitude()
+    {
+        Assert.Throws<CouldNotDeclarePositionException>(()=>Position.declare(-1,10));
+        Assert.Throws<CouldNotDeclarePositionException>(()=>Position.declare(1,-10));
+        Assert.Throws<CouldNotDeclarePositionException>(()=>Position.declare(-1,-10));
+    }
+}
