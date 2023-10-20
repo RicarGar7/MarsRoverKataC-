@@ -40,7 +40,7 @@ public class Rover
     {
         _position = instruction switch
         {
-            Instructions.MoveForward when _facing == Facing.N => Position.Declare(_position._latitude + speed , _position._longitude),
+            Instructions.MoveForward when _facing == Facing.N => new ForwardToNorthLinearMovementStrategy(_position, speed, _map).Move(),
             Instructions.MoveForward when _facing == Facing.S => Position.Declare(_position._latitude - speed , _position._longitude),
             Instructions.MoveForward when _facing == Facing.E => Position.Declare(_position._latitude, _position._longitude + speed),
             Instructions.MoveForward when _facing == Facing.W => Position.Declare(_position._latitude, _position._longitude - speed),

@@ -15,4 +15,9 @@ public class Surface
     {
         return x <= _x && y <= _y;
     }
+
+    public bool IsEdge(int target)
+    {
+        return (target > _x && target >= _y) || target < 0 ;
+    }
 }
