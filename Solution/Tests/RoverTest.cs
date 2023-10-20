@@ -31,6 +31,15 @@ public class RoverTest
     }
 
     [Fact]
+    public void Should_Not_LandInTheLimitOfThePlanet()
+    {
+        var rover = LandRoverOnTheLimitOfTheSurface(out var initialPosition);
+
+        Assert.Equal(rover._position._latitude,initialPosition._latitude);
+        Assert.Equal(rover._position._longitude,initialPosition._longitude);
+    }
+
+    [Fact]
     public void Should_Not_LandInTopOfAnObstacle()
     {
         var obstaclePosition = Position.Declare(90, 90);
@@ -81,7 +90,7 @@ public class RoverTest
     [Fact]
     public void Should_MoveAroundThePlanetSurface_MakingRotationalMovements()
     {
-        var rover = LandRover(out _);
+        var rover = LandRoverInTheMiddleOfTheSurface(out _);
 
         rover.Execute(Instructions.RotateLeft);
         Assert.Equal(Facing.W,rover._facing);
@@ -104,7 +113,7 @@ public class RoverTest
     [Fact]
     public void Should_MoveAroundThePlanetSurface_MakingBothRotationalAndLinearMovements()
     {
-        var rover = LandRover(out var initialPosition);
+        var rover = LandRoverInTheMiddleOfTheSurface(out var initialPosition);
 
         rover.Execute(Instructions.RotateLeft);
         rover.Execute(Instructions.MoveForward);
@@ -120,8 +129,24 @@ public class RoverTest
         Assert.Equal(rover._position._latitude,expectedLatitude);
         Assert.Equal(rover._position._longitude,expectedLongitude);
     }
+    
+    [Fact]
+    public void Should_MoveAroundThePlanetSurface_CircumnavigatingTheWorldVertically()
+    {
+        var rover = LandRoverOnTheLimitByHeightOfTheSurface(out var initialPosition);
 
-    private Rover LandRover(out Position initialPosition)
+        rover.Execute(Instructions.MoveForward);
+
+        var expectedLatitude = 0;
+        Assert.Equal(rover._position._latitude,expectedLatitude);
+        Assert.Equal(rover._position._longitude,initialPosition._longitude);
+    }
+
+    #endregion
+
+    #region LandingShortcuts
+
+    private Rover LandRoverInTheMiddleOfTheSurface(out Position initialPosition)
     {
         var planet = Planet.Create(new Surface(100, 100), new List<Obstacle>());
         var rover = new Rover();
@@ -129,6 +154,45 @@ public class RoverTest
         var map = satellite.Recognize(planet);
         rover.LoadMap(map);
         initialPosition = Position.Declare(50, 50);
+        var initialFacing = Facing.N;
+        rover.Land(initialPosition, initialFacing);
+        return rover;
+    }
+
+    private Rover LandRoverOnTheLimitByLengthOfTheSurface(out Position initialPosition)
+    {
+        var planet = Planet.Create(new Surface(100, 100), new List<Obstacle>());
+        var rover = new Rover();
+        var satellite = new Satellite();
+        var map = satellite.Recognize(planet);
+        rover.LoadMap(map);
+        initialPosition = Position.Declare(50, 0);
+        var initialFacing = Facing.N;
+        rover.Land(initialPosition, initialFacing);
+        return rover;
+    }
+
+    private Rover LandRoverOnTheLimitByHeightOfTheSurface(out Position initialPosition)
+    {
+        var planet = Planet.Create(new Surface(100, 100), new List<Obstacle>());
+        var rover = new Rover();
+        var satellite = new Satellite();
+        var map = satellite.Recognize(planet);
+        rover.LoadMap(map);
+        initialPosition = Position.Declare(100, 50);
+        var initialFacing = Facing.N;
+        rover.Land(initialPosition, initialFacing);
+        return rover;
+    }
+
+    private Rover LandRoverOnTheLimitOfTheSurface(out Position initialPosition)
+    {
+        var planet = Planet.Create(new Surface(100, 100), new List<Obstacle>());
+        var rover = new Rover();
+        var satellite = new Satellite();
+        var map = satellite.Recognize(planet);
+        rover.LoadMap(map);
+        initialPosition = Position.Declare(100, 100);
         var initialFacing = Facing.N;
         rover.Land(initialPosition, initialFacing);
         return rover;

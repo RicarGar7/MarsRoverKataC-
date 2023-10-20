@@ -13,6 +13,6 @@ public class Surface
 
     public bool CanBeContained(int x, int y)
     {
-        return x < _x && y < _y;
+        return x <= _x && y <= _y;
     }
 }
