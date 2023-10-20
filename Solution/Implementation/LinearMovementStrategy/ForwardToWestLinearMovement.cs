@@ -2,7 +2,7 @@ namespace Test;
 
 public class ForwardToWestLinearMovement : Movement
 {
-    public Position _position;
+    private Position _position;
     private Map _map;
 
     public ForwardToWestLinearMovement(Position position, int speed, Map map)

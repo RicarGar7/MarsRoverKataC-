@@ -6,8 +6,8 @@ public class Rover
 {
     const int speed = 1;
     
-    public Position _position;
-    public Facing _facing;
+    internal Position _position;
+    internal Facing _facing;
     private Map _map;
 
     public void Land(Position landPosition, Facing facing, Map map)

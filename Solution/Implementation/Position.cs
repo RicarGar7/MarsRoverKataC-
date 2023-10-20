@@ -2,8 +2,8 @@ namespace Test;
 
 public class Position
 {
-    public readonly int _latitude;
-    public readonly int _longitude;
+    internal readonly int _latitude;
+    internal readonly int _longitude;
 
     public Position(int latitude, int longitude)
     {

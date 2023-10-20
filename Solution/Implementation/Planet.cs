@@ -2,8 +2,8 @@ namespace Test;
 
 public class Planet
 {
-    public readonly Surface _surface;
-    public readonly List<Obstacle> _obstacles;
+    internal readonly Surface _surface;
+    internal readonly List<Obstacle> _obstacles;
 
     private Planet(Surface surface, List<Obstacle> obstacles)
     {

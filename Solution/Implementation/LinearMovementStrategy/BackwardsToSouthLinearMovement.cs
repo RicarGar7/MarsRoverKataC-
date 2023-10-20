@@ -2,7 +2,7 @@ namespace Test;
 
 public class BackwardsToSouthLinearMovement : Movement
 {
-    public Position _position;
+    private Position _position;
     private Map _map;
 
     public BackwardsToSouthLinearMovement(Position position, int speed, Map map)
