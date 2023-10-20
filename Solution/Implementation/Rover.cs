@@ -40,14 +40,14 @@ public class Rover
     {
         _position = instruction switch
         {
-            Instructions.MoveForward when _facing == Facing.N => new ForwardToNorthLinearMovementStrategy(_position, speed, _map).Move(),
-            Instructions.MoveForward when _facing == Facing.S => Position.Declare(_position._latitude - speed , _position._longitude),
-            Instructions.MoveForward when _facing == Facing.E => Position.Declare(_position._latitude, _position._longitude + speed),
-            Instructions.MoveForward when _facing == Facing.W => Position.Declare(_position._latitude, _position._longitude - speed),
-            Instructions.MoveBackwards when _facing == Facing.N => Position.Declare(_position._latitude - speed, _position._longitude),
-            Instructions.MoveBackwards when _facing == Facing.S => Position.Declare(_position._latitude + speed, _position._longitude),
-            Instructions.MoveBackwards when _facing == Facing.E => Position.Declare(_position._latitude, _position._longitude -speed),
-            Instructions.MoveBackwards when _facing == Facing.W => Position.Declare(_position._latitude, _position._longitude +speed),
+            Instructions.MoveForward when _facing == Facing.N => new ForwardToNorthLinearMovement(_position, speed, _map).Move(),
+            Instructions.MoveForward when _facing == Facing.S => new ForwardToSouthLinearMovement(_position, speed, _map).Move(),
+            Instructions.MoveForward when _facing == Facing.E => new ForwardToEastLinearMovement(_position, speed, _map).Move(),
+            Instructions.MoveForward when _facing == Facing.W => new ForwardToWestLinearMovement(_position, speed, _map).Move(),
+            Instructions.MoveBackwards when _facing == Facing.N => new BackwardsToNorthLinearMovement(_position, speed, _map).Move(),
+            Instructions.MoveBackwards when _facing == Facing.S => new BackwardsToSouthLinearMovement(_position, speed, _map).Move(),
+            Instructions.MoveBackwards when _facing == Facing.E => new BackwardsToEastLinearMovement(_position, speed, _map).Move(),
+            Instructions.MoveBackwards when _facing == Facing.W => new BackwardsToWestLinearMovement(_position, speed, _map).Move(),
             _ => _position
         };
 

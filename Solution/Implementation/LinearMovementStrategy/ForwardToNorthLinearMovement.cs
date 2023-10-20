@@ -1,12 +1,12 @@
 namespace Test;
 
-public class ForwardToNorthLinearMovementStrategy : MovementStrategy
+public class ForwardToNorthLinearMovement : MovementStrategy
 {
     public Position _position;
     private Map _map;
     public int _speed;
 
-    public ForwardToNorthLinearMovementStrategy(Position position, int speed, Map map)
+    public ForwardToNorthLinearMovement(Position position, int speed, Map map)
     {
         _position = position;
         _speed = speed;
