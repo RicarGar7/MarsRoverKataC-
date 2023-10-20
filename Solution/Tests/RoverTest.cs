@@ -4,8 +4,9 @@ public class RoverTest
 {
     //ToDo
     // Acceso a los atributos de las clases
-    // Simplificar mapa-satétilte
     // Refactor tests
+    // Quitar objeto satelite
+    // Meter una lista de instrucciones
 
     #region Landing
 
@@ -53,7 +54,7 @@ public class RoverTest
 
     #endregion
 
-    #region movement
+    #region Movement
 
     [Fact]
     public void Should_MoveAroundThePlanetSurface_MakingLinearMovements()
@@ -119,22 +120,51 @@ public class RoverTest
         Assert.Equal(rover._position._latitude, expectedLatitude);
         Assert.Equal(rover._position._longitude, expectedLongitude);
     }
+    
+    #endregion
+
+    #region CircumnavigatingMovement
 
     [Fact]
     public void Should_MoveAroundThePlanetSurface_CircumnavigatingTheWorldVertically()
     {
-        var rover = LandRoverOnTheLimitByHeightOfTheSurface(out var initialPosition);
+        var rover = LandRoverOnTheLimitByLengthOfTheSurface(out var initialPosition);
 
         rover.Execute(Instructions.MoveForward);
 
         var expectedLatitude = 0;
         Assert.Equal(rover._position._latitude, expectedLatitude);
         Assert.Equal(rover._position._longitude, initialPosition._longitude);
+
+        rover.Execute(Instructions.MoveBackwards);
+
+        expectedLatitude = 100;
+        Assert.Equal(rover._position._latitude, expectedLatitude);
+        Assert.Equal(rover._position._longitude, initialPosition._longitude);
     }
 
+    [Fact]
+    public void Should_MoveAroundThePlanetSurface_CircumnavigatingTheWorldHorizontally()
+    {
+        var rover = LandRoverOnTheLimitByHeightOfTheSurface(out var initialPosition);
+
+        rover.Execute(Instructions.RotateRight);
+        rover.Execute(Instructions.MoveForward);
+
+        var expectedLongitude = 0;
+        Assert.Equal(rover._position._latitude, initialPosition._latitude);
+        Assert.Equal(rover._position._longitude, expectedLongitude);
+
+        rover.Execute(Instructions.MoveBackwards);
+
+        expectedLongitude = 100;
+        Assert.Equal(rover._position._latitude, initialPosition._latitude);
+        Assert.Equal(rover._position._longitude, expectedLongitude);
+    }
+    
     #endregion
 
-    #region obstacleDetection
+    #region ObstacleDetection
 
     [Fact]
     public void Should_MoveAroundThePlanetSurface_DetectingObstacles()
@@ -173,7 +203,7 @@ public class RoverTest
         var rover = new Rover();
         var satellite = new Satellite();
         var map = satellite.Recognize(planet);
-        initialPosition = new Position(50, 0);
+        initialPosition = new Position(100, 50);
         var initialFacing = Facing.N;
         rover.Land(initialPosition, initialFacing, map);
         return rover;
@@ -187,7 +217,7 @@ public class RoverTest
         var rover = new Rover();
         var satellite = new Satellite();
         var map = satellite.Recognize(planet);
-        initialPosition = new Position(100, 50);
+        initialPosition = new Position(50, 100);
         var initialFacing = Facing.N;
         rover.Land(initialPosition, initialFacing, map);
         return rover;
@@ -206,12 +236,4 @@ public class RoverTest
     }
 
     #endregion
-}
-
-public enum Instructions
-{
-    MoveForward,
-    MoveBackwards,
-    RotateLeft,
-    RotateRight
 }
