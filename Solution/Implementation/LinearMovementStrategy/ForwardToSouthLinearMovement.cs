@@ -13,10 +13,15 @@ public class ForwardToSouthLinearMovement : MovementStrategy
         _map = map;
     }
 
+    public bool CanApply()
+    {
+        return true;
+    }
+
     public Position Move()
     {
         var targetLatitude = _position._latitude - _speed;
-        if (_map._surface.IsEdge(targetLatitude))
+        if (_map._surface.IsOut(targetLatitude))
         {
             targetLatitude = 0;
         }

@@ -16,7 +16,7 @@ public class Surface
         return x <= _x && y <= _y;
     }
 
-    public bool IsEdge(int target)
+    public bool IsOut(int target)
     {
         return (target > _x && target >= _y) || target < 0 ;
     }

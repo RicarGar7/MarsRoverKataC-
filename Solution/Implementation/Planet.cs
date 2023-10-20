@@ -11,15 +11,15 @@ public class Planet
         _obstacles = obstacles;
     }
 
-    public static Planet Create(Surface surface, List<Obstacle> artifacts)
+    public static Planet Create(Surface surface, List<Obstacle> obstacles)
     {
-        if (!artifacts.All(artifact =>
+        if (!obstacles.All(artifact =>
                 surface.CanBeContained(artifact._position._latitude, artifact._position._longitude)))
         {
             throw new ObstacleDeclaredOutOfThePlanetException();
         }
 
-        return new Planet(surface, artifacts);
+        return new Planet(surface, obstacles);
     }
 }
 

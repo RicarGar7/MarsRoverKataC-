@@ -20,6 +20,11 @@ public class Position
 
         return new Position(latitude, longitude);
     }
+    
+    public Position ShallowCopy()
+    {
+        return (Position)MemberwiseClone();
+    }
 }
 
 public class CouldNotDeclarePositionException : Exception

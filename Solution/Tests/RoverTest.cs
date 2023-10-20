@@ -2,8 +2,11 @@ namespace Test;
 
 public class RoverTest
 {
-    //Todo refactor to strategy pattern
-
+    //ToDo
+    // Acceso a los atributos de las clases
+    // Simplificar mapa-satétilte
+    // Refactor tests
+    
     #region Landing
 
     [Fact]
@@ -144,11 +147,30 @@ public class RoverTest
 
     #endregion
 
+    #region obstacleDetection
+
+    [Fact]
+    public void Should_MoveAroundThePlanetSurface_DetectingObstacles()
+    {
+        var rover = LandRoverInTheMiddleOfTheSurface(out var initialPosition, new List<Obstacle>
+        {
+            new(Position.Declare(51, 50))
+        });
+
+        rover.Execute(Instructions.MoveForward);
+
+        Assert.Equal(rover._position._latitude,initialPosition._latitude);
+        Assert.Equal(rover._position._longitude,initialPosition._longitude);
+    }
+
+    #endregion
+
     #region LandingShortcuts
 
-    private Rover LandRoverInTheMiddleOfTheSurface(out Position initialPosition)
+    private Rover LandRoverInTheMiddleOfTheSurface(out Position initialPosition, List<Obstacle>? obstacles = null)
     {
-        var planet = Planet.Create(new Surface(100, 100), new List<Obstacle>());
+        obstacles ??= new List<Obstacle>();
+        var planet = Planet.Create(new Surface(100, 100), obstacles);
         var rover = new Rover();
         var satellite = new Satellite();
         var map = satellite.Recognize(planet);
@@ -172,9 +194,10 @@ public class RoverTest
         return rover;
     }
 
-    private Rover LandRoverOnTheLimitByHeightOfTheSurface(out Position initialPosition)
+    private Rover LandRoverOnTheLimitByHeightOfTheSurface(out Position initialPosition, List<Obstacle>? obstacles = null)
     {
-        var planet = Planet.Create(new Surface(100, 100), new List<Obstacle>());
+        obstacles ??= new List<Obstacle>();
+        var planet = Planet.Create(new Surface(100, 100), obstacles);
         var rover = new Rover();
         var satellite = new Satellite();
         var map = satellite.Recognize(planet);

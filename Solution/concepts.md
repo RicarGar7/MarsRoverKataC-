@@ -1,0 +1,6 @@
+- Totally made with TDD
+- Shallow copy
+- Solid principles
+- Patterns
+  - Strategy
+  - Factory

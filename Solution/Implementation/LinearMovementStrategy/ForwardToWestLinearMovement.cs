@@ -13,10 +13,15 @@ public class ForwardToWestLinearMovement : MovementStrategy
         _map = map;
     }
 
+    public bool CanApply()
+    {
+        return true;
+    }
+
     public Position Move()
     {
         var targetLongitude = _position._longitude - _speed;
-        if (_map._surface.IsEdge(targetLongitude))
+        if (_map._surface.IsOut(targetLongitude))
         {
             targetLongitude = 0;
         }
