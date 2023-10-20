@@ -9,7 +9,7 @@ public class PlanetTest
             new Surface(10, 10),
             new List<Obstacle>()
             {
-                new(Position.Declare(5,5))
+                new(new Position(5, 5))
             }
         );
 
@@ -24,7 +24,7 @@ public class PlanetTest
                 new Surface(10, 10),
                 new List<Obstacle>()
                 {
-                    new(Position.Declare(11,11))
+                    new(new Position(11, 11))
                 }
             ));
     }

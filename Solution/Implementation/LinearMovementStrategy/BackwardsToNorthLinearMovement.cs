@@ -25,6 +25,6 @@ public class BackwardsToNorthLinearMovement : MovementStrategy
         {
             targetLatitude = 0;
         }
-        return Position.Declare(targetLatitude, _position._longitude);
+        return new Position(targetLatitude, _position._longitude);
     }
 }

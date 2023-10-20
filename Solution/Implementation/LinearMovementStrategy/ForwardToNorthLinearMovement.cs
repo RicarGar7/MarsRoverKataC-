@@ -13,7 +13,7 @@ public class ForwardToNorthLinearMovement : MovementStrategy
         _speed = speed;
         _map = map;
         
-        targetPosition = Position.Declare(_position._latitude + _speed, _position._longitude);
+        targetPosition = new Position(_position._latitude + _speed, _position._longitude);
     }
 
     public bool CanApply()
@@ -33,9 +33,9 @@ public class ForwardToNorthLinearMovement : MovementStrategy
             return _position.ShallowCopy();
         }
 
-        if (_map.IsTargetPositionInTheEdge(targetPosition))
+        if (_map.IsPositionOutOfTheMap(targetPosition))
         {
-            return Position.Declare(0, _position._longitude);
+            return new Position(0, _position._longitude);
         }
 
         return targetPosition;

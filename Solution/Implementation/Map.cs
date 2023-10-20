@@ -23,7 +23,7 @@ public class Map
                                           );
     }
     
-    public bool IsTargetPositionInTheEdge(Position position)
+    public bool IsPositionOutOfTheMap(Position position)
     {
         return _surface.IsOut(position._latitude) || _surface.IsOut(position._longitude);
     }

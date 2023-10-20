@@ -14,7 +14,7 @@ public class MapTests
         var surface = irrelevantSurface;
         var obstacles = new List<Obstacle>
         {
-            new(Position.Declare(25, 25))
+            new(new Position(25, 25))
         };
 
         var map = new Map(surface, obstacles);
@@ -36,8 +36,8 @@ public class MapTests
     {
         var obstacles = new List<Obstacle>
         {
-            new(Position.Declare(1, 2)),
-            new(Position.Declare(3, 4)),
+            new(new Position(1, 2)),
+            new(new Position(3, 4)),
         };
         var map = new Map(new Surface(50, 50), obstacles);
 
@@ -49,26 +49,26 @@ public class MapTests
     {
         var obstacles = new List<Obstacle>
         {
-            new(Position.Declare(1, 2)),
-            new(Position.Declare(3, 4)),
+            new(new Position(1, 2)),
+            new(new Position(3, 4)),
         };
         var map = new Map(new Surface(50, 50), obstacles);
 
-        Assert.True(map.HasObstacles(Test.Position.Declare(1, 2)));
-        Assert.False(map.HasObstacles(Test.Position.Declare(5, 6)));
+        Assert.True(map.HasObstacles(new Position(1, 2)));
+        Assert.False(map.HasObstacles(new Position(5, 6)));
     }
 
     [Fact]
-    public void ShouldDetectTargetPositionIsInTheEdge()
+    public void ShouldDetectTargetPositionIsOutOfTheMap()
     {
         var surface = new Surface(50, 50);
         var map = new Map(surface, new List<Obstacle>());
 
-        Assert.True(map.IsTargetPositionInTheEdge(Position.Declare(25, 51))); 
-        Assert.True(map.IsTargetPositionInTheEdge(Position.Declare(51, 25)));
-        Assert.True(map.IsTargetPositionInTheEdge(Position.Declare(51, 51)));
-        Assert.True(map.IsTargetPositionInTheEdge(Position.Declare(-1, 25)));
-        Assert.True(map.IsTargetPositionInTheEdge(Position.Declare(25, -1)));
-        Assert.False(map.IsTargetPositionInTheEdge(Position.Declare(25, 25)));
+        Assert.True(map.IsPositionOutOfTheMap(new Position(25, 51))); 
+        Assert.True(map.IsPositionOutOfTheMap(new Position(51, 25)));
+        Assert.True(map.IsPositionOutOfTheMap(new Position(51, 51)));
+        Assert.True(map.IsPositionOutOfTheMap(new Position(-1, 25)));
+        Assert.True(map.IsPositionOutOfTheMap(new Position(25, -1)));
+        Assert.False(map.IsPositionOutOfTheMap(new Position(25, 25)));
     }
 }

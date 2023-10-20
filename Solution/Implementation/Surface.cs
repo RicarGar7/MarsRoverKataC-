@@ -2,22 +2,22 @@ namespace Test;
 
 public class Surface
 {
-    private readonly int _x;
-    private readonly int _y;
+    private readonly int _latitude;
+    private readonly int _longitude;
 
-    public Surface(int x, int y)
+    public Surface(int latitude, int longitude)
     {
-        _x = x;
-        _y = y;
+        _latitude = latitude;
+        _longitude = longitude;
     }
 
-    public bool CanBeContained(int x, int y)
+    public bool CanBeContained(int latitude, int longitude)
     {
-        return x <= _x && y <= _y;
+        return latitude <= _latitude && longitude <= _longitude;
     }
 
     public bool IsOut(int target)
     {
-        return (target > _x && target >= _y) || target < 0 ;
+        return (target > _latitude && target >= _longitude) || target < 0 ;
     }
 }

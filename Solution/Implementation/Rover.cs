@@ -10,30 +10,21 @@ public class Rover
     public Facing _facing;
     private Map _map;
 
-    public void LoadMap(Map map)
+    public void Land(Position landPosition, Facing facing, Map map)
     {
-        _map = map;
-    }
-
-    public void Land(Position landPosition, Facing facing)
-    {
-        if (_map == null)
-        {
-            throw new RoverCantLandOnAUnrecognizedPlanet();
-        }
-
-        if (!_map._surface.CanBeContained(landPosition._latitude,landPosition._longitude))
+        if (!map._surface.CanBeContained(landPosition._latitude,landPosition._longitude))
         {
             throw new RoverCantLandOutOfThePlanetSurface();
         }
 
-        if (_map._obstacles.Any(obstacle => obstacle._position == landPosition))
+        if (map.HasObstacles(landPosition))
         {
             throw new RoverCantLandOnInTopOfAnObstacle();
         }
         
         _position = landPosition;
         _facing = facing;
+        _map = map;
     }
 
     public void Execute(Instructions instruction)

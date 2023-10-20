@@ -26,6 +26,6 @@ public class ForwardToEastLinearMovement : MovementStrategy
         {
             targetLongitude = 0;
         }
-        return Position.Declare(_position._latitude, targetLongitude);
+        return new Position(_position._latitude, targetLongitude);
     }
 }
