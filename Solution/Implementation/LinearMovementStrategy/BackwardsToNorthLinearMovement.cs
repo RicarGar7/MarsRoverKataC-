@@ -1,30 +1,29 @@
 namespace Test;
 
-public class BackwardsToNorthLinearMovement : MovementStrategy
+public class BackwardsToNorthLinearMovement : Movement
 {
     public Position _position;
     private Map _map;
-    public int _speed;
 
     public BackwardsToNorthLinearMovement(Position position, int speed, Map map)
+        : base(map, new Position(position._latitude - speed, position._longitude))
     {
         _position = position;
-        _speed = speed;
         _map = map;
     }
 
-    public bool CanApply()
+    public override Position Apply()
     {
-        return true;
-    }
-
-    public Position Move()
-    {
-        var targetLatitude = _position._latitude - _speed;
-        if (_map._surface.IsOut(targetLatitude))
+        if (!CanApply())
         {
-            targetLatitude = 0;
+            return _position.ShallowCopy();
         }
-        return new Position(targetLatitude, _position._longitude);
+
+        if (_map.IsPositionOutOfTheMap(targetPosition))
+        {
+            return new Position(_map._surface._latitude, _position._longitude);
+        }
+
+        return targetPosition;
     }
 }

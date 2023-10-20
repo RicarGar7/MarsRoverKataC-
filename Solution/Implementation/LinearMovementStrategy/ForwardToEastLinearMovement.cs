@@ -1,31 +1,29 @@
 namespace Test;
 
-public class ForwardToEastLinearMovement : MovementStrategy
+public class ForwardToEastLinearMovement : Movement
 {
     public Position _position;
     private Map _map;
-    public int _speed;
 
-    public ForwardToEastLinearMovement(Position position, int speed, Map map)
+    public ForwardToEastLinearMovement(Position position, int speed, Map map) 
+        : base(map, new Position(position._latitude, position._longitude + speed))
     {
         _position = position;
-        _speed = speed;
         _map = map;
     }
 
-    public bool CanApply()
+    public override Position Apply()
     {
-        return true;
-
-    }
-
-    public Position Move()
-    {
-        var targetLongitude = _position._longitude + _speed;
-        if (_map._surface.IsOut(targetLongitude))
+        if (!CanApply())
         {
-            targetLongitude = 0;
+            return _position.ShallowCopy();
         }
-        return new Position(_position._latitude, targetLongitude);
+
+        if (_map.IsPositionOutOfTheMap(targetPosition))
+        {
+            return new Position(_position._latitude, 0);
+        }
+
+        return targetPosition;
     }
 }

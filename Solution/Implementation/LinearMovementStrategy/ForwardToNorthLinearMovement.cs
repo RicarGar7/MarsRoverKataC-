@@ -1,32 +1,18 @@
 namespace Test;
 
-public class ForwardToNorthLinearMovement : MovementStrategy
+public class ForwardToNorthLinearMovement : Movement
 {
     public Position _position;
     private Map _map;
-    public int _speed;
-    private Position targetPosition;
 
-    public ForwardToNorthLinearMovement(Position position, int speed, Map map)
+    public ForwardToNorthLinearMovement(Position position, int speed, Map map) 
+        : base(map, new Position(position._latitude + speed, position._longitude))
     {
         _position = position;
-        _speed = speed;
         _map = map;
-        
-        targetPosition = new Position(_position._latitude + _speed, _position._longitude);
     }
 
-    public bool CanApply()
-    {
-        if (!_map.HasAnyObstacle())
-        {
-            return true;
-        }
-
-        return !_map.HasObstacles(targetPosition);
-    }
-
-    public Position Move()
+    public override Position Apply()
     {
         if (!CanApply())
         {

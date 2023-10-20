@@ -2,8 +2,8 @@ namespace Test;
 
 public class Surface
 {
-    private readonly int _latitude;
-    private readonly int _longitude;
+    internal readonly int _latitude;
+    internal readonly int _longitude;
 
     public Surface(int latitude, int longitude)
     {
