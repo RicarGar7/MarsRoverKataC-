@@ -12,18 +12,19 @@ public class BackwardsToNorthLinearMovement : Movement
         _map = map;
     }
 
-    public override Position Apply()
+    public override Either<Alert, Position> Apply()
     {
         if (!CanApply())
         {
-            return _position.ShallowCopy();
+            return Either<Alert, Position>.FromLeft(Alert.ObstacleDetectedAlert(targetPosition));
         }
 
         if (_map.IsPositionOutOfTheMap(targetPosition))
         {
-            return new Position(_map._surface._latitude, _position._longitude);
+            return Either<Alert, Position>.FromRight(new Position(_map._surface._latitude, _position._longitude));
         }
 
-        return targetPosition;
+        return Either<Alert, Position>.FromRight(targetPosition);
+        return Either<Alert, Position>.FromRight(targetPosition);
     }
 }

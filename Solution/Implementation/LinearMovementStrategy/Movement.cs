@@ -22,5 +22,5 @@ public abstract class Movement
     }
 
     //Todo buscar patrones de comportamiento para implementar esto de forma generica
-    public abstract Position Apply();
+    public abstract Either<Alert, Position> Apply();
 }

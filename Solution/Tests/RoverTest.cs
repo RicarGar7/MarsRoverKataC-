@@ -177,17 +177,20 @@ public class RoverTest
     #region ObstacleDetection
 
     [Fact]
-    public void Should_MoveAroundThePlanetSurface_DetectingObstacles()
+    public void
+        Should_MoveAroundThePlanetSurface_DetectingObstacles_And_StoppingTheExecutionSequence_And_ReportingTheObstaclePosition()
     {
         var rover = LandRoverInTheMiddleOfTheSurface(out var initialPosition, new List<Obstacle>
         {
-            new(new Position(51, 50))
+            new(new Position(51, 49))
         });
 
-        rover.Execute(Instructions.MoveForward);
+        rover.Execute(new List<char> { 'F', 'L', 'F', 'F', 'L', 'F' });
 
-        Assert.Equal(rover._position._latitude, initialPosition._latitude);
-        Assert.Equal(rover._position._longitude, initialPosition._longitude);
+        Assert.True(new List<Alert>
+        {
+            Alert.ObstacleDetectedAlert(new Position(51, 49))
+        }.SequenceEqual(rover._alerts));
     }
 
     #endregion

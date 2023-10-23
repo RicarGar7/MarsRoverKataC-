@@ -5,3 +5,4 @@
   - Strategy
   - Factory
   - Hierarchy
+- IEquatable
