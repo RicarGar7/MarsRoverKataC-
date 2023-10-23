@@ -16,10 +16,3 @@ public class Position
         return (Position)MemberwiseClone();
     }
 }
-
-public class CouldNotDeclarePositionException : Exception
-{
-    public CouldNotDeclarePositionException() : base("CouldNotDeclarePosition")
-    {
-    }
-}

@@ -120,7 +120,17 @@ public class RoverTest
         Assert.Equal(rover._position._latitude, expectedLatitude);
         Assert.Equal(rover._position._longitude, expectedLongitude);
     }
-    
+
+    [Fact]
+    public void Should_be_able_to_execute_character_collection_as_instructions_skipping_unknown_characters()
+    {
+        var rover = LandRoverInTheMiddleOfTheSurface(out var initialPosition);
+        rover.Execute(new List<char> { 'F', 'L', 'M', 'F', 'L', 'F', 'L', 'F' });
+
+        Assert.Equal(rover._position._latitude, initialPosition._latitude);
+        Assert.Equal(rover._position._longitude, initialPosition._longitude);
+    }
+
     #endregion
 
     #region CircumnavigatingMovement
@@ -161,7 +171,7 @@ public class RoverTest
         Assert.Equal(rover._position._latitude, initialPosition._latitude);
         Assert.Equal(rover._position._longitude, expectedLongitude);
     }
-    
+
     #endregion
 
     #region ObstacleDetection

@@ -55,13 +55,26 @@ public class Rover
             _ => _facing
         };
     }
-}
 
-public class RoverCantLandOnAUnrecognizedPlanet : Exception
-{
-    public RoverCantLandOnAUnrecognizedPlanet(): base("Can't arrange the landing operation in an unrecognized planet")
+    public void Execute(List<char> rawInstructions)
     {
-        
+        foreach (var instruction in Normalize(rawInstructions))
+        {
+            Execute(instruction);
+        }
+    }
+
+    private IEnumerable<Instructions> Normalize(List<char> rawInstructions)
+    {
+        return rawInstructions
+            .Where(value=> value == 'F' || value == 'B' || value == 'L' || value == 'R')
+            .Select(value => value switch
+            {
+                'F' => Instructions.MoveForward,
+                'B' => Instructions.MoveBackwards,
+                'L' => Instructions.RotateLeft,
+                'R' => Instructions.RotateRight
+            });
     }
 }
 

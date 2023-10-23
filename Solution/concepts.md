@@ -4,3 +4,4 @@
 - Patterns
   - Strategy
   - Factory
+  - Hierarchy
