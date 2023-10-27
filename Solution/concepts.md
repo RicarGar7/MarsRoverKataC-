@@ -1,8 +1,8 @@
 - Totally made with TDD
-- Shallow copy
 - Solid principles
 - Patterns
   - Strategy
   - Factory
   - Hierarchy
 - IEquatable
+- Either "monad"

@@ -11,11 +11,6 @@ public class Position: IEquatable<Position>
         _longitude = longitude;
     }
 
-    public Position ShallowCopy()
-    {
-        return (Position)MemberwiseClone();
-    }
-
     public bool Equals(Position? other)
     {
         if (ReferenceEquals(null, other)) return false;

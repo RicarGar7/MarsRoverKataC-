@@ -191,6 +191,8 @@ public class RoverTest
         {
             Alert.ObstacleDetectedAlert(new Position(51, 49))
         }.SequenceEqual(rover._alerts));
+        
+        //ToDo: Reportar la posición del obstáculo
     }
 
     #endregion

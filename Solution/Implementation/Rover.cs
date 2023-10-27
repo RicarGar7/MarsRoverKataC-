@@ -36,6 +36,11 @@ public class Rover
 
     private Facing ApplyRotationalMovements(Instructions instruction)
     {
+        if (_alerts.Any())
+        {
+            return _facing;
+        }
+
         return instruction switch
         {
             Instructions.RotateLeft when _facing == Facing.N => _facing = Facing.W,
@@ -56,16 +61,25 @@ public class Rover
         {
             return _position;
         }
+
         Either<Alert, Position> appliedMovement = (instruction switch
         {
-            Instructions.MoveForward when _facing == Facing.N => new ForwardToNorthLinearMovement(_position, speed, _map).Apply(),
-            Instructions.MoveForward when _facing == Facing.S => new ForwardToSouthLinearMovement(_position, speed, _map).Apply(),
-            Instructions.MoveForward when _facing == Facing.E => new ForwardToEastLinearMovement(_position, speed, _map).Apply(),
-            Instructions.MoveForward when _facing == Facing.W => new ForwardToWestLinearMovement(_position, speed, _map).Apply(),
-            Instructions.MoveBackwards when _facing == Facing.N => new BackwardsToNorthLinearMovement(_position, speed, _map).Apply(),
-            Instructions.MoveBackwards when _facing == Facing.S => new BackwardsToSouthLinearMovement(_position, speed, _map).Apply(),
-            Instructions.MoveBackwards when _facing == Facing.E => new BackwardsToEastLinearMovement(_position, speed, _map).Apply(),
-            Instructions.MoveBackwards when _facing == Facing.W => new BackwardsToWestLinearMovement(_position, speed, _map).Apply(),
+            Instructions.MoveForward when _facing == Facing.N => new ForwardToNorthLinearMovement(_position, speed,
+                _map).Apply(),
+            Instructions.MoveForward when _facing == Facing.S => new ForwardToSouthLinearMovement(_position, speed,
+                _map).Apply(),
+            Instructions.MoveForward when _facing == Facing.E => new ForwardToEastLinearMovement(_position, speed, _map)
+                .Apply(),
+            Instructions.MoveForward when _facing == Facing.W => new ForwardToWestLinearMovement(_position, speed, _map)
+                .Apply(),
+            Instructions.MoveBackwards when _facing == Facing.N => new BackwardsToNorthLinearMovement(_position, speed,
+                _map).Apply(),
+            Instructions.MoveBackwards when _facing == Facing.S => new BackwardsToSouthLinearMovement(_position, speed,
+                _map).Apply(),
+            Instructions.MoveBackwards when _facing == Facing.E => new BackwardsToEastLinearMovement(_position, speed,
+                _map).Apply(),
+            Instructions.MoveBackwards when _facing == Facing.W => new BackwardsToWestLinearMovement(_position, speed,
+                _map).Apply(),
             _ => null
         })!;
 
@@ -80,12 +94,7 @@ public class Rover
             return _position;
         }
 
-        if (appliedMovement.IsRight)
-        {
-            return appliedMovement.Right;
-        }
-
-        return _position;
+        return appliedMovement.Right;
     }
 
     public void Execute(List<char> rawInstructions)
