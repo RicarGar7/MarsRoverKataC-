@@ -56,12 +56,11 @@ public class Rover
             return _position;
         }
 
-        Either<Alert, Position> appliedMovement = (instruction switch
+        Either<Alert, Position> appliedMovement = instruction switch
         {
             Instructions.MoveForward => new Forward(_position,_facing, _map, speed).Move(),
             Instructions.MoveBackwards => new Backwards(_position,_facing, _map, speed).Move(),
-            _ => null
-        })!;
+        };
 
         if (appliedMovement == null)
         {
