@@ -56,11 +56,12 @@ public class Rover
             return _position;
         }
 
-        Either<Alert, Position> appliedMovement = instruction switch
+        Either<Alert, Position>? appliedMovement = (instruction switch
         {
             Instructions.MoveForward => new Forward(_position,_facing, _map, speed).Move(),
             Instructions.MoveBackwards => new Backwards(_position,_facing, _map, speed).Move(),
-        };
+            _ => null
+        });
 
         if (appliedMovement == null)
         {
@@ -78,10 +79,12 @@ public class Rover
 
     public void Execute(List<char> rawInstructions)
     {
+        _alerts.Clear();
+
         foreach (var instruction in Normalize(rawInstructions))
         {
-            //ToDo: Try to find the way to inline this across the codebase
-            Execute(instruction);
+            _position = ApplyLinearMovement(instruction);
+            _facing = ApplyRotationalMovements(instruction);
         }
     }
 

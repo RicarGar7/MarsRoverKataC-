@@ -196,6 +196,29 @@ public class RoverTest
         //ToDo: Reportar la posición del obstáculo
     }
 
+    [Fact]
+    public void
+        Should_MoveAroundThePlanetSurface_DetectingObstacles_And_StoppingTheExecutionSequence_And_StartingNextSequenceCorrectly()
+    {
+        var rover = LandRoverInTheMiddleOfTheSurface(out var initialPosition, new List<Obstacle>
+        {
+            new(new Position(51, 49))
+        });
+
+        rover.Execute(new List<char> { 'F', 'L', 'F', 'F', 'L', 'F' });
+
+        Assert.True(new List<Alert>
+        {
+            Alert.ObstacleDetectedAlert(new Position(51, 49))
+        }.SequenceEqual(rover._alerts));
+        var expectedPosition = new Position(51, 50);
+        Assert.True(rover._position.Equals(expectedPosition));
+        
+        rover.Execute(new List<char> { 'R','F', 'F' });
+
+        Assert.False(rover._position.Equals(expectedPosition));
+    }
+
     #endregion
 
     #region LandingShortcuts
