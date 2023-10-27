@@ -83,8 +83,8 @@ public class Rover
 
         foreach (var instruction in Normalize(rawInstructions))
         {
-            _position = ApplyLinearMovement(instruction);
-            _facing = ApplyRotationalMovements(instruction);
+            //ToDo: Try to find the way to inline this across the codebase
+            Execute(instruction);
         }
     }
 
