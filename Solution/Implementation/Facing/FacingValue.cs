@@ -1,6 +1,6 @@
 namespace Test;
 
-public enum Facing
+public enum FacingValue
 {
     N,S,E,W
 }

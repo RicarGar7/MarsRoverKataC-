@@ -1,3 +1,5 @@
+using Test.Facing;
+
 namespace Test;
 
 public class RoverTest
@@ -6,7 +8,6 @@ public class RoverTest
     // Acceso a los atributos de las clases
     // Refactor tests
     // Quitar objeto satelite
-    // Meter una lista de instrucciones
 
     #region Landing
 
@@ -19,7 +20,7 @@ public class RoverTest
         var map = satellite.Recognize(planet);
 
         Assert.Throws<RoverCantLandOutOfThePlanetSurface>(() =>
-            rover.Land(new Position(110, 110), Facing.N, map)
+            rover.Land(new Position(110, 110), new North(), map)
         );
     }
 
@@ -48,7 +49,7 @@ public class RoverTest
         var map = satellite.Recognize(planet);
 
         Assert.Throws<RoverCantLandOnInTopOfAnObstacle>(() =>
-            rover.Land(obstaclePosition, Facing.N, map)
+            rover.Land(obstaclePosition, new North(), map)
         );
     }
 
@@ -64,7 +65,7 @@ public class RoverTest
         var satellite = new Satellite();
         var map = satellite.Recognize(planet);
         var initialPosition = new Position(50, 50);
-        var initialFacing = Facing.N;
+        var initialFacing = new North();
         rover.Land(initialPosition, initialFacing, map);
 
         rover.Execute(Instructions.MoveForward);
@@ -84,21 +85,21 @@ public class RoverTest
         var rover = LandRoverInTheMiddleOfTheSurface(out _);
 
         rover.Execute(Instructions.RotateLeft);
-        Assert.Equal(Facing.W, rover._facing);
+        Assert.Equal(FacingValue.W, rover._facing.Value());
         rover.Execute(Instructions.RotateRight);
-        Assert.Equal(Facing.N, rover._facing);
+        Assert.Equal(FacingValue.N, rover._facing.Value());
         rover.Execute(Instructions.RotateRight);
-        Assert.Equal(Facing.E, rover._facing);
+        Assert.Equal(FacingValue.E, rover._facing.Value());
         rover.Execute(Instructions.RotateRight);
-        Assert.Equal(Facing.S, rover._facing);
+        Assert.Equal(FacingValue.S, rover._facing.Value());
         rover.Execute(Instructions.RotateRight);
-        Assert.Equal(Facing.W, rover._facing);
+        Assert.Equal(FacingValue.W, rover._facing.Value());
         rover.Execute(Instructions.RotateLeft);
-        Assert.Equal(Facing.S, rover._facing);
+        Assert.Equal(FacingValue.S, rover._facing.Value());
         rover.Execute(Instructions.RotateLeft);
-        Assert.Equal(Facing.E, rover._facing);
+        Assert.Equal(FacingValue.E, rover._facing.Value());
         rover.Execute(Instructions.RotateLeft);
-        Assert.Equal(Facing.N, rover._facing);
+        Assert.Equal(FacingValue.N, rover._facing.Value());
     }
 
     [Fact]
@@ -207,8 +208,7 @@ public class RoverTest
         var satellite = new Satellite();
         var map = satellite.Recognize(planet);
         initialPosition = new Position(50, 50);
-        var initialFacing = Facing.N;
-        rover.Land(initialPosition, initialFacing, map);
+        rover.Land(initialPosition, new North(), map);
         return rover;
     }
 
@@ -219,8 +219,7 @@ public class RoverTest
         var satellite = new Satellite();
         var map = satellite.Recognize(planet);
         initialPosition = new Position(100, 50);
-        var initialFacing = Facing.N;
-        rover.Land(initialPosition, initialFacing, map);
+        rover.Land(initialPosition, new North(), map);
         return rover;
     }
 
@@ -233,8 +232,7 @@ public class RoverTest
         var satellite = new Satellite();
         var map = satellite.Recognize(planet);
         initialPosition = new Position(50, 100);
-        var initialFacing = Facing.N;
-        rover.Land(initialPosition, initialFacing, map);
+        rover.Land(initialPosition, new North(), map);
         return rover;
     }
 
@@ -245,8 +243,7 @@ public class RoverTest
         var satellite = new Satellite();
         var map = satellite.Recognize(planet);
         initialPosition = new Position(100, 100);
-        var initialFacing = Facing.N;
-        rover.Land(initialPosition, initialFacing, map);
+        rover.Land(initialPosition, new North(), map);
         return rover;
     }
 

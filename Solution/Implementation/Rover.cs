@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices.ComTypes;
+using Test.Implementation.Movement;
 
 namespace Test;
 
@@ -7,11 +7,11 @@ public class Rover
     const int speed = 1;
 
     internal Position _position;
-    internal Facing _facing;
+    internal Implementation.Facing.Facing _facing;
     private Map _map;
-    internal List<Alert> _alerts = new List<Alert>();
+    internal List<Alert> _alerts = new();
 
-    public void Land(Position landPosition, Facing facing, Map map)
+    public void Land(Position landPosition, Implementation.Facing.Facing facing, Map map)
     {
         if (!map._surface.CanBeContained(landPosition._latitude, landPosition._longitude))
         {
@@ -34,7 +34,7 @@ public class Rover
         _facing = ApplyRotationalMovements(instruction);
     }
 
-    private Facing ApplyRotationalMovements(Instructions instruction)
+    private Implementation.Facing.Facing ApplyRotationalMovements(Instructions instruction)
     {
         if (_alerts.Any())
         {
@@ -43,14 +43,8 @@ public class Rover
 
         return instruction switch
         {
-            Instructions.RotateLeft when _facing == Facing.N => _facing = Facing.W,
-            Instructions.RotateLeft when _facing == Facing.W => _facing = Facing.S,
-            Instructions.RotateLeft when _facing == Facing.S => _facing = Facing.E,
-            Instructions.RotateLeft when _facing == Facing.E => _facing = Facing.N,
-            Instructions.RotateRight when _facing == Facing.N => _facing = Facing.E,
-            Instructions.RotateRight when _facing == Facing.E => _facing = Facing.S,
-            Instructions.RotateRight when _facing == Facing.S => _facing = Facing.W,
-            Instructions.RotateRight when _facing == Facing.W => _facing = Facing.N,
+            Instructions.RotateLeft  => _facing = _facing.WhatIsLeft(),
+            Instructions.RotateRight  => _facing = _facing.WhatIsRight(),
             _ => _facing
         };
     }
@@ -64,22 +58,8 @@ public class Rover
 
         Either<Alert, Position> appliedMovement = (instruction switch
         {
-            Instructions.MoveForward when _facing == Facing.N => new ForwardToNorthLinearMovement(_position, speed,
-                _map).Apply(),
-            Instructions.MoveForward when _facing == Facing.S => new ForwardToSouthLinearMovement(_position, speed,
-                _map).Apply(),
-            Instructions.MoveForward when _facing == Facing.E => new ForwardToEastLinearMovement(_position, speed, _map)
-                .Apply(),
-            Instructions.MoveForward when _facing == Facing.W => new ForwardToWestLinearMovement(_position, speed, _map)
-                .Apply(),
-            Instructions.MoveBackwards when _facing == Facing.N => new BackwardsToNorthLinearMovement(_position, speed,
-                _map).Apply(),
-            Instructions.MoveBackwards when _facing == Facing.S => new BackwardsToSouthLinearMovement(_position, speed,
-                _map).Apply(),
-            Instructions.MoveBackwards when _facing == Facing.E => new BackwardsToEastLinearMovement(_position, speed,
-                _map).Apply(),
-            Instructions.MoveBackwards when _facing == Facing.W => new BackwardsToWestLinearMovement(_position, speed,
-                _map).Apply(),
+            Instructions.MoveForward => new Forward(_position,_facing, _map, speed).Move(),
+            Instructions.MoveBackwards => new Backwards(_position,_facing, _map, speed).Move(),
             _ => null
         })!;
 
