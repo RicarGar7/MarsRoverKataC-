@@ -13,8 +13,7 @@ public class RoverTest
     public void Should_Not_LandOutOfThePlanet()
     {
         var planet = Planet.Create(new Surface(100, 100), new List<Obstacle>());
-        var rover = new Rover();
-
+        var rover = new Rover(new OutboxSpy());
         Assert.Throws<RoverCantLandOutOfThePlanetSurface>(() =>
             rover.Land(new Position(110, 110), new North(), planet)
         );
@@ -40,7 +39,7 @@ public class RoverTest
                 new(obstaclePosition)
             }
         );
-        var rover = new Rover();
+        var rover = new Rover(new OutboxSpy());
 
         Assert.Throws<RoverCantLandOnInTopOfAnObstacle>(() =>
             rover.Land(obstaclePosition, new North(), planet)
@@ -55,7 +54,7 @@ public class RoverTest
     public void Should_MoveAroundThePlanetSurface_MakingLinearMovements()
     {
         var planet = Planet.Create(new Surface(100, 100), new List<Obstacle>());
-        var rover = new Rover();
+        var rover = new Rover(new OutboxSpy());
         var initialPosition = new Position(50, 50);
         var initialFacing = new North();
         rover.Land(initialPosition, initialFacing, planet);
@@ -173,10 +172,11 @@ public class RoverTest
     public void
         Should_MoveAroundThePlanetSurface_DetectingObstacles_And_StoppingTheExecutionSequence_And_ReportingTheObstaclePosition()
     {
+        var spy = new OutboxSpy();
         var rover = LandRoverInTheMiddleOfTheSurface(out var initialPosition, new List<Obstacle>
         {
             new(new Position(51, 49))
-        });
+        }, spy);
 
         rover.Execute(new List<char> { 'F', 'L', 'F', 'F', 'L', 'F' });
 
@@ -184,8 +184,8 @@ public class RoverTest
         {
             Alert.ObstacleDetectedAlert(new Position(51, 49))
         }.SequenceEqual(rover._alerts));
-        
-        //ToDo: Reportar la posición del obstáculo
+
+        Assert.True(spy.HasAnyMessage());
     }
 
     [Fact]
@@ -205,8 +205,8 @@ public class RoverTest
         }.SequenceEqual(rover._alerts));
         var expectedPosition = new Position(51, 50);
         Assert.True(rover._position.Equals(expectedPosition));
-        
-        rover.Execute(new List<char> { 'R','F', 'F' });
+
+        rover.Execute(new List<char> { 'R', 'F', 'F' });
 
         Assert.False(rover._position.Equals(expectedPosition));
     }
@@ -215,11 +215,13 @@ public class RoverTest
 
     #region LandingShortcuts
 
-    private Rover LandRoverInTheMiddleOfTheSurface(out Position initialPosition, List<Obstacle>? obstacles = null)
+    private Rover LandRoverInTheMiddleOfTheSurface(out Position initialPosition, List<Obstacle>? obstacles = null,
+        Outbox outbox = null)
     {
         obstacles ??= new List<Obstacle>();
+        outbox ??= new OutboxSpy();
         var planet = Planet.Create(new Surface(100, 100), obstacles);
-        var rover = new Rover();
+        var rover = new Rover(outbox);
         initialPosition = new Position(50, 50);
         rover.Land(initialPosition, new North(), planet);
         return rover;
@@ -228,7 +230,7 @@ public class RoverTest
     private Rover LandRoverOnTheLimitByLengthOfTheSurface(out Position initialPosition)
     {
         var planet = Planet.Create(new Surface(100, 100), new List<Obstacle>());
-        var rover = new Rover();
+        var rover = new Rover(new OutboxSpy());
         initialPosition = new Position(100, 50);
         rover.Land(initialPosition, new North(), planet);
         return rover;
@@ -239,7 +241,7 @@ public class RoverTest
     {
         obstacles ??= new List<Obstacle>();
         var planet = Planet.Create(new Surface(100, 100), obstacles);
-        var rover = new Rover();
+        var rover = new Rover(new OutboxSpy());
         initialPosition = new Position(50, 100);
         rover.Land(initialPosition, new North(), planet);
         return rover;
@@ -248,11 +250,26 @@ public class RoverTest
     private Rover LandRoverOnTheLimitOfTheSurface(out Position initialPosition)
     {
         var planet = Planet.Create(new Surface(100, 100), new List<Obstacle>());
-        var rover = new Rover();
+        var rover = new Rover(new OutboxSpy());
         initialPosition = new Position(100, 100);
         rover.Land(initialPosition, new North(), planet);
         return rover;
     }
 
     #endregion
+}
+
+internal class OutboxSpy : Outbox
+{
+    public List<Message> _messages = new List<Message>();
+
+    public void publish(Message message)
+    {
+        _messages.Add(message);
+    }
+
+    public bool HasAnyMessage()
+    {
+        return _messages.Any();
+    }
 }

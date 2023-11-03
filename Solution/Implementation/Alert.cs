@@ -1,6 +1,6 @@
 namespace Test;
 
-public class Alert: IEquatable<Alert>
+public class Alert: IEquatable<Alert>, Message
 {
     private readonly Position _position;
     private readonly AlertType _type;

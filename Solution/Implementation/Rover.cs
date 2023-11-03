@@ -10,6 +10,12 @@ public class Rover
     internal Implementation.Facing.Facing _facing;
     private Planet _planet;
     internal List<Alert> _alerts = new();
+    private readonly Outbox _outbox;
+
+    public Rover(Outbox outbox)
+    {
+        _outbox = outbox;
+    }
 
     public void Land(Position landPosition, Implementation.Facing.Facing facing, Planet map)
     {
@@ -65,6 +71,7 @@ public class Rover
         if (appliedMovement.IsLeft)
         {
             _alerts.Add(appliedMovement.Left);
+            _outbox.publish(appliedMovement.Left);
             return _position;
         }
 
