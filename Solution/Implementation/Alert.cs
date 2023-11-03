@@ -3,12 +3,12 @@ namespace Test;
 public class Alert: IEquatable<Alert>
 {
     private readonly Position _position;
-    private readonly AlertType _obstacleDetected;
+    private readonly AlertType _type;
 
-    private Alert(Position position, AlertType obstacleDetected)
+    private Alert(Position position, AlertType type)
     {
         _position = position;
-        _obstacleDetected = obstacleDetected;
+        _type = type;
     }
 
     public static Alert ObstacleDetectedAlert(Position position)
@@ -20,7 +20,7 @@ public class Alert: IEquatable<Alert>
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
-        return _position.Equals(other._position) && _obstacleDetected == other._obstacleDetected;
+        return _position.Equals(other._position) && _type == other._type;
     }
 
     public override bool Equals(object? obj)
@@ -33,6 +33,6 @@ public class Alert: IEquatable<Alert>
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(_position, (int)_obstacleDetected);
+        return HashCode.Combine(_position, (int)_type);
     }
 }

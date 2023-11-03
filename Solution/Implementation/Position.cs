@@ -31,10 +31,3 @@ public class Position: IEquatable<Position>
         return HashCode.Combine(_latitude, _longitude);
     }
 }
-
-public class CouldNotDeclarePositionException : Exception
-{
-    public CouldNotDeclarePositionException() : base("CouldNotDeclarePosition")
-    {
-    }
-}

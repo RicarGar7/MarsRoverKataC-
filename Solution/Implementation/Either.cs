@@ -5,7 +5,6 @@ public class Either<TLeft, TRight>
     public TLeft Left { get; private set; }
     public TRight Right { get; private set; }
     public bool IsLeft { get; private set; }
-    public bool IsRight => !IsLeft;
 
     private Either() { }
 

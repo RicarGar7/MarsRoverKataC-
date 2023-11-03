@@ -3,14 +3,14 @@ namespace Test;
 public class LinearMovement
 {
     private readonly Position _edgePosition;
+    private readonly Position _targetPosition;
     private readonly Map _map;
-    private readonly Position targetPosition;
 
     public LinearMovement(Position edgePosition, Map map, Position targetPosition)
     {
         _edgePosition = edgePosition;
         _map = map;
-        this.targetPosition = targetPosition;
+        this._targetPosition = targetPosition;
     }
 
     protected bool CanApply()
@@ -20,21 +20,21 @@ public class LinearMovement
             return true;
         }
 
-        return !_map.HasObstacles(targetPosition);
+        return !_map.HasObstacles(_targetPosition);
     }
 
     public Either<Alert, Position> Apply()
     {
         if (!CanApply())
         {
-            return Either<Alert, Position>.FromLeft(Alert.ObstacleDetectedAlert(targetPosition));
+            return Either<Alert, Position>.FromLeft(Alert.ObstacleDetectedAlert(_targetPosition));
         }
 
-        if (_map.IsPositionOutOfTheMap(targetPosition))
+        if (_map.IsPositionOutOfTheMap(_targetPosition))
         {
             return Either<Alert, Position>.FromRight(_edgePosition);
         }
 
-        return Either<Alert, Position>.FromRight(targetPosition);
+        return Either<Alert, Position>.FromRight(_targetPosition);
     }
 }
