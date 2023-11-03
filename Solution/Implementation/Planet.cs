@@ -21,6 +21,23 @@ public class Planet
 
         return new Planet(surface, obstacles);
     }
+
+    public bool HasAnyObstacle()
+    {
+        return _obstacles.Count > 0;
+    }
+
+    public bool HasObstacles(Position position)
+    {
+        return Enumerable.Any<Obstacle>(_obstacles, obstacle => obstacle._position._latitude == position._latitude 
+                                                                && obstacle._position._longitude == position._longitude
+        );
+    }
+
+    public bool IsPositionOutOfTheMap(Position position)
+    {
+        return _surface.IsOut(position._latitude) || _surface.IsOut(position._longitude);
+    }
 }
 
 public class ObstacleDeclaredOutOfThePlanetException : Exception

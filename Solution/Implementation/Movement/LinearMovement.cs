@@ -4,9 +4,9 @@ public class LinearMovement
 {
     private readonly Position _edgePosition;
     private readonly Position _targetPosition;
-    private readonly Map _map;
+    private readonly Planet _map;
 
-    public LinearMovement(Position edgePosition, Map map, Position targetPosition)
+    public LinearMovement(Position edgePosition, Planet map, Position targetPosition)
     {
         _edgePosition = edgePosition;
         _map = map;

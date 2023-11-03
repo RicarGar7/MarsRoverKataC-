@@ -7,7 +7,6 @@ public class RoverTest
     //ToDo
     // Acceso a los atributos de las clases
     // Refactor tests
-    // Quitar objeto satelite
 
     #region Landing
 
@@ -16,11 +15,9 @@ public class RoverTest
     {
         var planet = Planet.Create(new Surface(100, 100), new List<Obstacle>());
         var rover = new Rover();
-        var satellite = new Satellite();
-        var map = satellite.Recognize(planet);
 
         Assert.Throws<RoverCantLandOutOfThePlanetSurface>(() =>
-            rover.Land(new Position(110, 110), new North(), map)
+            rover.Land(new Position(110, 110), new North(), planet)
         );
     }
 
@@ -45,11 +42,9 @@ public class RoverTest
             }
         );
         var rover = new Rover();
-        var satellite = new Satellite();
-        var map = satellite.Recognize(planet);
 
         Assert.Throws<RoverCantLandOnInTopOfAnObstacle>(() =>
-            rover.Land(obstaclePosition, new North(), map)
+            rover.Land(obstaclePosition, new North(), planet)
         );
     }
 
@@ -62,11 +57,9 @@ public class RoverTest
     {
         var planet = Planet.Create(new Surface(100, 100), new List<Obstacle>());
         var rover = new Rover();
-        var satellite = new Satellite();
-        var map = satellite.Recognize(planet);
         var initialPosition = new Position(50, 50);
         var initialFacing = new North();
-        rover.Land(initialPosition, initialFacing, map);
+        rover.Land(initialPosition, initialFacing, planet);
 
         rover.Execute(Instructions.MoveForward);
 
@@ -228,10 +221,8 @@ public class RoverTest
         obstacles ??= new List<Obstacle>();
         var planet = Planet.Create(new Surface(100, 100), obstacles);
         var rover = new Rover();
-        var satellite = new Satellite();
-        var map = satellite.Recognize(planet);
         initialPosition = new Position(50, 50);
-        rover.Land(initialPosition, new North(), map);
+        rover.Land(initialPosition, new North(), planet);
         return rover;
     }
 
@@ -239,10 +230,8 @@ public class RoverTest
     {
         var planet = Planet.Create(new Surface(100, 100), new List<Obstacle>());
         var rover = new Rover();
-        var satellite = new Satellite();
-        var map = satellite.Recognize(planet);
         initialPosition = new Position(100, 50);
-        rover.Land(initialPosition, new North(), map);
+        rover.Land(initialPosition, new North(), planet);
         return rover;
     }
 
@@ -252,10 +241,8 @@ public class RoverTest
         obstacles ??= new List<Obstacle>();
         var planet = Planet.Create(new Surface(100, 100), obstacles);
         var rover = new Rover();
-        var satellite = new Satellite();
-        var map = satellite.Recognize(planet);
         initialPosition = new Position(50, 100);
-        rover.Land(initialPosition, new North(), map);
+        rover.Land(initialPosition, new North(), planet);
         return rover;
     }
 
@@ -263,10 +250,8 @@ public class RoverTest
     {
         var planet = Planet.Create(new Surface(100, 100), new List<Obstacle>());
         var rover = new Rover();
-        var satellite = new Satellite();
-        var map = satellite.Recognize(planet);
         initialPosition = new Position(100, 100);
-        rover.Land(initialPosition, new North(), map);
+        rover.Land(initialPosition, new North(), planet);
         return rover;
     }
 

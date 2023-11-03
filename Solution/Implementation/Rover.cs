@@ -8,10 +8,10 @@ public class Rover
 
     internal Position _position;
     internal Implementation.Facing.Facing _facing;
-    private Map _map;
+    private Planet _planet;
     internal List<Alert> _alerts = new();
 
-    public void Land(Position landPosition, Implementation.Facing.Facing facing, Map map)
+    public void Land(Position landPosition, Implementation.Facing.Facing facing, Planet map)
     {
         if (!map._surface.CanBeContained(landPosition._latitude, landPosition._longitude))
         {
@@ -25,7 +25,7 @@ public class Rover
 
         _position = landPosition;
         _facing = facing;
-        _map = map;
+        _planet = map;
     }
 
     public void Execute(Instructions instruction)
@@ -58,8 +58,8 @@ public class Rover
 
         Either<Alert, Position>? appliedMovement = (instruction switch
         {
-            Instructions.MoveForward => new Forward(_position,_facing, _map, speed).Move(),
-            Instructions.MoveBackwards => new Backwards(_position,_facing, _map, speed).Move(),
+            Instructions.MoveForward => new Forward(_position,_facing, _planet, speed).Move(),
+            Instructions.MoveBackwards => new Backwards(_position,_facing, _planet, speed).Move(),
             _ => null
         });
 
