@@ -28,12 +28,6 @@ public class Rover
         _planet = map;
     }
 
-    public void Execute(Instructions instruction)
-    {
-        _position = ApplyLinearMovement(instruction);
-        _facing = ApplyRotationalMovements(instruction);
-    }
-
     private Implementation.Facing.Facing ApplyRotationalMovements(Instructions instruction)
     {
         if (_alerts.Any())
@@ -83,8 +77,8 @@ public class Rover
 
         foreach (var instruction in Normalize(rawInstructions))
         {
-            //ToDo: Try to find the way to inline this across the codebase
-            Execute(instruction);
+            _position = ApplyLinearMovement(instruction);
+            _facing = ApplyRotationalMovements(instruction);
         }
     }
 

@@ -4,7 +4,6 @@ namespace Test;
 
 public class RoverTest
 {
-    //ToDo
     // Acceso a los atributos de las clases
     // Refactor tests
 
@@ -61,13 +60,13 @@ public class RoverTest
         var initialFacing = new North();
         rover.Land(initialPosition, initialFacing, planet);
 
-        rover.Execute(Instructions.MoveForward);
+        rover.Execute(new List<char>("F"));
 
         var expectedLatitude = initialPosition._latitude + 1;
         Assert.Equal(rover._position._latitude, expectedLatitude);
         Assert.Equal(rover._position._longitude, initialPosition._longitude);
 
-        rover.Execute(Instructions.MoveBackwards);
+        rover.Execute(new List<char>("B"));
         Assert.Equal(rover._position._latitude, initialPosition._latitude);
         Assert.Equal(rover._position._longitude, initialPosition._longitude);
     }
@@ -77,21 +76,21 @@ public class RoverTest
     {
         var rover = LandRoverInTheMiddleOfTheSurface(out _);
 
-        rover.Execute(Instructions.RotateLeft);
+        rover.Execute(new List<char>("L"));
         Assert.Equal(FacingValue.W, rover._facing.Value());
-        rover.Execute(Instructions.RotateRight);
+        rover.Execute(new List<char>("R"));
         Assert.Equal(FacingValue.N, rover._facing.Value());
-        rover.Execute(Instructions.RotateRight);
+        rover.Execute(new List<char>("R"));
         Assert.Equal(FacingValue.E, rover._facing.Value());
-        rover.Execute(Instructions.RotateRight);
+        rover.Execute(new List<char>("R"));
         Assert.Equal(FacingValue.S, rover._facing.Value());
-        rover.Execute(Instructions.RotateRight);
+        rover.Execute(new List<char>("R"));
         Assert.Equal(FacingValue.W, rover._facing.Value());
-        rover.Execute(Instructions.RotateLeft);
+        rover.Execute(new List<char>("L"));
         Assert.Equal(FacingValue.S, rover._facing.Value());
-        rover.Execute(Instructions.RotateLeft);
+        rover.Execute(new List<char>("L"));
         Assert.Equal(FacingValue.E, rover._facing.Value());
-        rover.Execute(Instructions.RotateLeft);
+        rover.Execute(new List<char>("L"));
         Assert.Equal(FacingValue.N, rover._facing.Value());
     }
 
@@ -100,15 +99,15 @@ public class RoverTest
     {
         var rover = LandRoverInTheMiddleOfTheSurface(out var initialPosition);
 
-        rover.Execute(Instructions.RotateLeft);
-        rover.Execute(Instructions.MoveForward);
+        rover.Execute(new List<char>("L"));
+        rover.Execute(new List<char>("F"));
 
         var expectedLongitude = initialPosition._longitude - 1;
         Assert.Equal(rover._position._latitude, initialPosition._latitude);
         Assert.Equal(rover._position._longitude, expectedLongitude);
 
-        rover.Execute(Instructions.RotateRight);
-        rover.Execute(Instructions.MoveBackwards);
+        rover.Execute(new List<char>("R"));
+        rover.Execute(new List<char>("B"));
 
         var expectedLatitude = initialPosition._latitude - 1;
         Assert.Equal(rover._position._latitude, expectedLatitude);
@@ -134,13 +133,13 @@ public class RoverTest
     {
         var rover = LandRoverOnTheLimitByLengthOfTheSurface(out var initialPosition);
 
-        rover.Execute(Instructions.MoveForward);
+        rover.Execute(new List<char>("F"));
 
         var expectedLatitude = 0;
         Assert.Equal(rover._position._latitude, expectedLatitude);
         Assert.Equal(rover._position._longitude, initialPosition._longitude);
 
-        rover.Execute(Instructions.MoveBackwards);
+        rover.Execute(new List<char>("B"));
 
         expectedLatitude = 100;
         Assert.Equal(rover._position._latitude, expectedLatitude);
@@ -152,14 +151,14 @@ public class RoverTest
     {
         var rover = LandRoverOnTheLimitByHeightOfTheSurface(out var initialPosition);
 
-        rover.Execute(Instructions.RotateRight);
-        rover.Execute(Instructions.MoveForward);
+        rover.Execute(new List<char>("R"));
+        rover.Execute(new List<char>("F"));
 
         var expectedLongitude = 0;
         Assert.Equal(rover._position._latitude, initialPosition._latitude);
         Assert.Equal(rover._position._longitude, expectedLongitude);
 
-        rover.Execute(Instructions.MoveBackwards);
+        rover.Execute(new List<char>("B"));
 
         expectedLongitude = 100;
         Assert.Equal(rover._position._latitude, initialPosition._latitude);
