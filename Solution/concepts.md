@@ -6,3 +6,4 @@
   - Hierarchy
 - IEquatable
 - Either "monad"
+- Mocks

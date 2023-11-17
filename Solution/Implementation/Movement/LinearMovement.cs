@@ -10,7 +10,7 @@ public class LinearMovement
     {
         _edgePosition = edgePosition;
         _map = map;
-        this._targetPosition = targetPosition;
+        _targetPosition = targetPosition;
     }
 
     protected bool CanApply()
