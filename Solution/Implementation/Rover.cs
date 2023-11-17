@@ -9,7 +9,7 @@ public class Rover
     internal Position _position;
     internal Implementation.Facing.Facing _facing;
     private Planet _planet;
-    internal List<Alert> _alerts = new();
+    internal Alerts _alerts = new();
     private readonly Outbox _outbox;
 
     public Rover(Outbox outbox)
@@ -36,7 +36,7 @@ public class Rover
 
     private Implementation.Facing.Facing ApplyRotationalMovements(Instructions instruction)
     {
-        if (_alerts.Any())
+        if (_alerts.HasOperationBeenCancelled())
         {
             return _facing;
         }
@@ -51,7 +51,7 @@ public class Rover
 
     private Position ApplyLinearMovement(Instructions instruction)
     {
-        if (_alerts.Any())
+        if (_alerts.HasOperationBeenCancelled())
         {
             return _position;
         }

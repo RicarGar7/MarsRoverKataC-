@@ -4,7 +4,8 @@ namespace Test;
 
 public class RoverTest
 {
-    // Acceso a los atributos de las clases
+    // Acceso a los atributos de las clases, garantizar mutabilidad
+    // Quitar Position (Anémico)
     // Refactor tests
 
     #region Landing
