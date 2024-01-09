@@ -13,28 +13,28 @@ public class Forward : Movement
         this.speed = speed;
     }
 
-    protected override Either<Alert, Position> ToWest()
+    protected override Result<Alert, Position> ToWest()
     {
         var targetPosition = new Position(position._latitude, position._longitude - speed);
         var edgePosition = new Position(position._latitude, planet._surface._longitude);
         return new LinearMovement(edgePosition, planet, targetPosition).Apply();
     }
 
-    protected override Either<Alert, Position> ToEast()
+    protected override Result<Alert, Position> ToEast()
     {
         var targetPosition = new Position(position._latitude, position._longitude + speed);
         var edgePosition = new Position(position._latitude, 0);
         return new LinearMovement(edgePosition, planet, targetPosition).Apply();
     }
 
-    protected override Either<Alert, Position> ToSouth()
+    protected override Result<Alert, Position> ToSouth()
     {
         var targetPosition = new Position(position._latitude - speed, position._longitude);
         var edgePosition = new Position(planet._surface._latitude, position._latitude);
         return new LinearMovement(edgePosition, planet, targetPosition).Apply();
     }
 
-    protected override Either<Alert, Position> ToNorth()
+    protected override Result<Alert, Position> ToNorth()
     {
         var targetPosition = new Position(position._latitude + speed, position._longitude);
         var edgePosition =new Position(0, position._longitude);

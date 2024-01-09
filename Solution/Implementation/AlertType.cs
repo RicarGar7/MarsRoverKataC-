@@ -1,4 +1,4 @@
-namespace Test;
+namespace Test.Implementation;
 
 public enum AlertType
 {

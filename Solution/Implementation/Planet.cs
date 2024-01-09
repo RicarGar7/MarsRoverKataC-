@@ -34,7 +34,7 @@ public class Planet
         );
     }
 
-    public bool IsPositionOutOfTheMap(Position position)
+    public bool IsPositionOutOfThePlanet(Position position)
     {
         return _surface.IsOut(position._latitude) || _surface.IsOut(position._longitude);
     }

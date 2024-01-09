@@ -68,11 +68,11 @@ public class PlanetTest
         var surface = new Surface(50, 50);
         var planet =  Planet.Create(surface, new List<Obstacle>());
 
-        Assert.True(planet.IsPositionOutOfTheMap(new Position(25, 51))); 
-        Assert.True(planet.IsPositionOutOfTheMap(new Position(51, 25)));
-        Assert.True(planet.IsPositionOutOfTheMap(new Position(51, 51)));
-        Assert.True(planet.IsPositionOutOfTheMap(new Position(-1, 25)));
-        Assert.True(planet.IsPositionOutOfTheMap(new Position(25, -1)));
-        Assert.False(planet.IsPositionOutOfTheMap(new Position(25, 25)));
+        Assert.True(planet.IsPositionOutOfThePlanet(new Position(25, 51))); 
+        Assert.True(planet.IsPositionOutOfThePlanet(new Position(51, 25)));
+        Assert.True(planet.IsPositionOutOfThePlanet(new Position(51, 51)));
+        Assert.True(planet.IsPositionOutOfThePlanet(new Position(-1, 25)));
+        Assert.True(planet.IsPositionOutOfThePlanet(new Position(25, -1)));
+        Assert.False(planet.IsPositionOutOfThePlanet(new Position(25, 25)));
     }
 }

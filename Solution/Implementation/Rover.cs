@@ -9,7 +9,7 @@ public class Rover
     internal Position _position;
     internal Implementation.Facing.Facing _facing;
     private Planet _planet;
-    internal Alerts _alerts = new();
+    internal ObstacleDetectedAlerts obstacleDetectedAlerts = new();
     private readonly Outbox _outbox;
 
     public Rover(Outbox outbox)
@@ -36,7 +36,7 @@ public class Rover
 
     private Implementation.Facing.Facing ApplyRotationalMovements(Instructions instruction)
     {
-        if (_alerts.HasOperationBeenCancelled())
+        if (obstacleDetectedAlerts.Any())
         {
             return _facing;
         }
@@ -51,26 +51,21 @@ public class Rover
 
     private Position ApplyLinearMovement(Instructions instruction)
     {
-        if (_alerts.HasOperationBeenCancelled())
+        if (obstacleDetectedAlerts.Any())
         {
             return _position;
         }
 
-        Either<Alert, Position>? appliedMovement = (instruction switch
+        Result<Alert, Position> appliedMovement = (instruction switch
         {
             Instructions.MoveForward => new Forward(_position,_facing, _planet, speed).Move(),
             Instructions.MoveBackwards => new Backwards(_position,_facing, _planet, speed).Move(),
             _ => null
         });
 
-        if (appliedMovement == null)
-        {
-            return _position;
-        }
-
         if (appliedMovement.IsLeft)
         {
-            _alerts.Add(appliedMovement.Left);
+            obstacleDetectedAlerts.Add(appliedMovement.Left);
             _outbox.publish(appliedMovement.Left);
             return _position;
         }
@@ -80,7 +75,7 @@ public class Rover
 
     public void Execute(List<char> rawInstructions)
     {
-        _alerts.Clear();
+        obstacleDetectedAlerts.Clear();
 
         foreach (var instruction in Normalize(rawInstructions))
         {

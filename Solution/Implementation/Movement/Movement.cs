@@ -9,7 +9,7 @@ public abstract class Movement
         this.facing = facing;
     }
 
-    public Either<Alert, Position> Move()
+    public Result<Alert, Position> Move()
     {
         return facing.Value() switch
         {
@@ -20,8 +20,8 @@ public abstract class Movement
         };
     }
 
-     protected abstract Either<Alert, Position> ToNorth();
-     protected abstract Either<Alert, Position> ToSouth();
-     protected abstract Either<Alert, Position> ToEast();
-     protected abstract Either<Alert, Position> ToWest();
+     protected abstract Result<Alert, Position> ToNorth();
+     protected abstract Result<Alert, Position> ToSouth();
+     protected abstract Result<Alert, Position> ToEast();
+     protected abstract Result<Alert, Position> ToWest();
 }

@@ -5,6 +5,7 @@ namespace Test;
 public class RoverTest
 {
     // Acceso a los atributos de las clases, garantizar mutabilidad
+    // Quitar el maldito _ de los atributos
     // Quitar Position (Anémico)
     // Refactor tests
 
@@ -174,17 +175,18 @@ public class RoverTest
         Should_MoveAroundThePlanetSurface_DetectingObstacles_And_StoppingTheExecutionSequence_And_ReportingTheObstaclePosition()
     {
         var spy = new OutboxSpy();
-        var rover = LandRoverInTheMiddleOfTheSurface(out var initialPosition, new List<Obstacle>
-        {
-            new(new Position(51, 49))
-        }, spy);
+        var rover = LandRoverInTheMiddleOfTheSurface(out var initialPosition,
+            new List<Obstacle>
+            {
+                new(new Position(51, 49))
+            }, spy);
 
         rover.Execute(new List<char> { 'F', 'L', 'F', 'F', 'L', 'F' });
 
         Assert.True(new List<Alert>
         {
             Alert.ObstacleDetectedAlert(new Position(51, 49))
-        }.SequenceEqual(rover._alerts));
+        }.SequenceEqual(rover.obstacleDetectedAlerts));
 
         Assert.True(spy.HasAnyMessage());
     }
@@ -203,7 +205,7 @@ public class RoverTest
         Assert.True(new List<Alert>
         {
             Alert.ObstacleDetectedAlert(new Position(51, 49))
-        }.SequenceEqual(rover._alerts));
+        }.SequenceEqual(rover.obstacleDetectedAlerts));
         var expectedPosition = new Position(51, 50);
         Assert.True(rover._position.Equals(expectedPosition));
 
